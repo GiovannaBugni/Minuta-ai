@@ -1,0 +1,115 @@
+[
+  {
+    "name": "Gerar relatório real e conferir a extração",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": [
+      "entrada pelo exemplo",
+      "POST /api/report: extração por IA",
+      "visão geral",
+      "plano de ação",
+      "evidências",
+      "texto original"
+    ],
+    "description": "Verifica o fluxo principal com uma reunião fictícia e dados ausentes.",
+    "steps": [
+      "Clique em Usar exemplo.",
+      "Clique em Gerar relatório e aguarde o relatório.",
+      "Confira o resumo e a decisão de adiar o pagamento.",
+      "Abra Plano de ação e expanda a evidência de Ana. Confira que a documentação está como ponto em aberto ou ação com dados ausentes, sem responsável ou prazo inventado.",
+      "Abra Texto original."
+    ],
+    "expected": "O resumo trata do portal de estudos; o pagamento fica para depois; Ana revisa o protótipo até 30/10/2026; a documentação não recebe responsável ou prazo inventado; as evidências e a transcrição original estão disponíveis."
+  },
+  {
+    "name": "Validar entrada e demonstrar em celular",
+    "viewport": "mobile",
+    "covers": [
+      "validação de título",
+      "validação de tamanho mínimo",
+      "interface responsiva",
+      "guia do projeto",
+      "navegação",
+      "exemplo pelo guia"
+    ],
+    "description": "Verifica guardrails de entrada e acesso ao guia em tela pequena.",
+    "steps": [
+      "Abra Nova reunião com o formulário vazio e clique em Gerar relatório.",
+      "Preencha o título Teste inválido, insira texto curto abc e tente gerar novamente.",
+      "Abra Sobre o projeto e leia as ferramentas e limitações.",
+      "Clique em Experimentar o exemplo."
+    ],
+    "expected": "O app solicita título e depois ao menos 40 caracteres; nenhuma geração inválida é salva; o guia fica legível sem rolagem horizontal e o botão abre o formulário preenchido com a reunião fictícia."
+  },
+  {
+    "name": "Histórico local, busca e exclusão confirmada",
+    "viewport": "desktop",
+    "covers": [
+      "histórico local",
+      "busca",
+      "reabrir relatório",
+      "persistência após atualização",
+      "cancelar exclusão",
+      "confirmar exclusão"
+    ],
+    "description": "Verifica o ciclo de vida de um relatório no navegador.",
+    "setup": [
+      "Use o exemplo, altere o título para Registro de teste local e gere o relatório."
+    ],
+    "steps": [
+      "Abra Histórico e busque Registro de teste local.",
+      "Recarregue a página e abra Histórico novamente.",
+      "Abra o relatório salvo e confira o resumo.",
+      "Volte ao Histórico, solicite a exclusão e clique em Cancelar.",
+      "Solicite a exclusão novamente e confirme Excluir relatório.",
+      "Recarregue e busque Registro de teste local no Histórico."
+    ],
+    "expected": "O relatório pode ser encontrado, reaberto e persiste após atualização; cancelar mantém o registro; após confirmar e recarregar ele não aparece."
+  },
+  {
+    "name": "Copiar e exportar relatório completo",
+    "viewport": "desktop",
+    "covers": [
+      "cópia Markdown",
+      "download Markdown",
+      "novo relatório sem alterar histórico"
+    ],
+    "description": "Verifica que o relatório pode ser levado para fora do app.",
+    "setup": [
+      "Use o exemplo e gere um relatório com o título Relatório para exportação."
+    ],
+    "steps": [
+      "Clique em Copiar e observe a confirmação ou orientação para baixar caso o navegador bloqueie a área de transferência.",
+      "Clique em Baixar .md e confira o arquivo baixado.",
+      "Clique em Nova reunião e abra Histórico."
+    ],
+    "expected": "A cópia informa o resultado; o arquivo minuta-relatorio.md contém título, resumo, decisões e ações com responsáveis e prazos; iniciar uma nova reunião não remove o relatório anterior."
+  },
+  {
+    "name": "Falha de IA mantém as anotações",
+    "viewport": "desktop",
+    "covers": [
+      "POST /api/report: tratamento de falha",
+      "mensagem de erro",
+      "preservação do formulário",
+      "nova tentativa"
+    ],
+    "description": "Verifica a recuperação de uma resposta de erro do backend.",
+    "qa_faults": [
+      {
+        "method": "POST",
+        "path": "/api/report",
+        "status": 502,
+        "body_json": {
+          "error": "simulated_failure"
+        }
+      }
+    ],
+    "steps": [
+      "Clique em Usar exemplo e em Gerar relatório.",
+      "Confira a mensagem de erro e as anotações no formulário.",
+      "Clique em Gerar relatório novamente."
+    ],
+    "expected": "A falha fica visível; título e transcrição permanecem preenchidos; o botão volta a permitir tentativa, sem salvar relatório falso no Histórico."
+  }
+]
